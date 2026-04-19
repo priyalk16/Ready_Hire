@@ -1,8 +1,9 @@
-import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import type { CareerReport, FinalReport, ATSScoreData } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
-const model = "gemini-1.5-flash";
+const apiKey = process.env.GEMINI_API_KEY || '';
+const ai = new GoogleGenAI({ apiKey });
+const model = "gemini-flash-latest"; 
 
 const careerReportSchema = {
     type: Type.OBJECT,
@@ -108,7 +109,6 @@ Return ONLY valid JSON.`;
         config: {
             responseMimeType: "application/json",
             responseSchema: careerReportSchema,
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
 
@@ -225,7 +225,6 @@ Ensure questions are specific to the resume content and role-appropriate.`;
                 },
                 required: ['technicalQuestions', 'hrQuestions', 'voice_prompts', 'essay_prompts']
             },
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
     
@@ -269,7 +268,6 @@ export const analyzeHRAnswers = async (questions: { question: string, options: s
                 },
                 required: ['feedback', 'score']
             },
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
     
@@ -326,7 +324,6 @@ export const transcribeAndAnalyzeAudio = async (audioData: { prompt: string, aud
                 },
                 required: ['analyses']
             },
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
 
@@ -367,7 +364,6 @@ export const analyzeEssay = async (essays: { prompt: string, text: string }[]): 
                 },
                 required: ['analyses']
             },
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
 
@@ -439,7 +435,6 @@ export const getATSScore = async (resumeText: string, domain: string, role: stri
                 },
                 required: ['score', 'breakdown', 'insights', 'missingSkills', 'suggestions']
             },
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
 
@@ -532,7 +527,6 @@ export const generateFinalReport = async (results: any, role: string): Promise<F
                 },
                 required: ['summary', 'consolidatedStrengths', 'areasForImprovement', 'careerRoadmap', 'resumeImprovements', 'sampleProjects', 'suggestedCertifications', 'resources']
             },
-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
         },
     });
 

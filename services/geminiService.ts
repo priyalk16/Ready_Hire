@@ -2,7 +2,7 @@ import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
 import type { CareerReport, FinalReport, ATSScoreData } from '../types';
 
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
-const model = "gemini-1.5-pro-latest"; 
+const model = "gemini-1.5-flash";
 
 const careerReportSchema = {
     type: Type.OBJECT,

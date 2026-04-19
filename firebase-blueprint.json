@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about the registered user.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "CareerDiscovery": {
+      "title": "Career Discovery Report",
+      "description": "Stored results of the personality quiz and role recommendations.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "answers": { "type": "object" },
+        "report": { "$ref": "#/entities/CareerReport" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "report", "createdAt"]
+    },
+    "CareerReport": {
+      "title": "Career Report Data",
+      "type": "object",
+      "properties": {
+        "recommendedRoles": { "type": "array" },
+        "keyStrengths": { "type": "array" },
+        "areasToImprove": { "type": "array" },
+        "skillsToStartWith": { "type": "array" },
+        "roadmap": { "type": "array" },
+        "projects": { "type": "array" },
+        "resources": { "type": "array" }
+      }
+    },
+    "PrepAssessment": {
+      "title": "Placement Prep Assessment",
+      "description": "Structured assessment results for ATS, HR, Voice, and Essay modules.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "role": { "type": "string" },
+        "domain": { "type": "string" },
+        "level": { "type": "string" },
+        "results": { "type": "object" },
+        "finalReport": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Root user profiles."
+    },
+    "/users/{userId}/careerDiscovery/latest": {
+      "schema": "CareerDiscovery",
+      "description": "Individual student's latest career discovery report."
+    },
+    "/users/{userId}/prepAssessments/{assessmentId}": {
+      "schema": "PrepAssessment",
+      "description": "Comprehensive prep results for different roles."
+    }
+  }
+}
